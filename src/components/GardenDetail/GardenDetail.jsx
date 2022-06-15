@@ -1,14 +1,15 @@
 import './GardenDetail.css';
 import LineItem from '../LineItem/LineItem';
+// import order from '../../../models/order';
 
 // Used to display the details of any order, including the cart (unpaid order)
-export default function GardenDetail({ garden, handleChangeQty, handleCheckout }) {
-  if (!garden) return null;
+export default function GardenDetail({ order, handleChangeQty, handleCheckout }) {
+  if (!order) return null;
 
-  const lineItems = garden.lineItems.map(item =>
+  const lineItems = order.lineItems.map(item =>
     <LineItem
       lineItem={item}
-      isPaid={garden.isPaid}
+      isPaid={order.isPaid}
       handleChangeQty={handleChangeQty}
       key={item._id}
     />
@@ -17,19 +18,19 @@ export default function GardenDetail({ garden, handleChangeQty, handleCheckout }
   return (
     <div className="GardenDetail">
       <div className="section-heading">
-        {garden.isPaid ?
-          <span>Garden <span className="smaller">{garden.gardenId}</span></span>
+        {order.isPaid ?
+          <span>Garden <span className="smaller">{order.orderId}</span></span>
           :
           <span>NEW Garden</span>
         }
-        <span>{new Date(garden.updatedAt).toLocaleDateString()}</span>
+        <span>{new Date(order.updatedAt).toLocaleDateString()}</span>
       </div>
       <div className="line-item-container flex-ctr-ctr flex-col scroll-y">
         {lineItems.length ?
           <>
             {lineItems}
             <section className="total">
-              {garden.isPaid ?
+              {order.isPaid ?
                 <span className="right">TOTAL&nbsp;&nbsp;</span>
                 :
                 <button
@@ -38,8 +39,8 @@ export default function GardenDetail({ garden, handleChangeQty, handleCheckout }
                   disabled={!lineItems.length}
                 >CHECKOUT</button>
               }
-              <span>{garden.totalQty}</span>
-              <span className="right">${garden.gardenTotal.toFixed(2)}</span>
+              <span>{order.totalQty}</span>
+              <span className="right">${order.orderTotal.toFixed(2)}</span>
             </section>
           </>
           :

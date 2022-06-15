@@ -17,18 +17,28 @@ export default function NewGarden({ user, setUser }) {
     const categoriesRef = useRef([]);
     const history = useHistory();
 
+
     useEffect(function() {
         async function getItems() {
-            const items = await itemsAPI.getAll();
-            categoriesRef.current = items.reduce((cats, item) => {
+        const items = await itemsAPI.getAll();
+        categoriesRef.current = items.reduce((cats, item) => {
             const cat = item.category.name;
             return cats.includes(cat) ? cats : [...cats, cat];
-            }, []);
-            setPlantItems(items);
-            setActiveCat(items[0].category.name);
+        }, []);
+        setPlantItems(items);
+        setActiveCat(items[0].category.name);
         }
         getItems();
-        }, []);
+
+        async function getCart(){
+        const cart = await ordersAPI.getCart();
+        console.log('cart get is ', cart)
+        setCart(cart);
+        }
+        getCart();
+    }, []);  // an empty dependency array will run the effect after the first render only
+
+
         //Event HANDLERS
         async function handleAddToOrder(itemId) {
             const cart = await ordersAPI.addItemToCart(itemId);
@@ -61,7 +71,7 @@ export default function NewGarden({ user, setUser }) {
             </aside>
             <PlantList
                 plantItems={plantItems.filter(item => item.category.name === activeCat)}
-                // handleAddToOrder={handleAddToOrder}
+                handleAddToOrder={handleAddToOrder}
             />
             <GardenDetail />
                 order={cart}

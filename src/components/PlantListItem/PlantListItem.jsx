@@ -1,16 +1,16 @@
 
 import './PlantListItem.css';
 
-export default function PlantListItem({ plant, isSelected, handleSelectPlant }) {
+export default function PlantListItem({ order, isSelected, handleSelectOrder }) {
     return (
-        <div className={`PlantListItem${isSelected ? ' selected' : ''}`} onClick={() => handleSelectPlant(plant)}>
+        <div className={`PlantListItem${isSelected ? ' selected' : ''}`} onClick={() => handleSelectOrder(order)}>
         <div>
-            <div>Plant Id: <span className="smaller">{plant.plantId}</span></div>
-            <div className="smaller">{new Date(plant.updatedAt).toLocaleDateString()}</div>
+            <div>Plant Id: <span className="smaller">{order.orderId}</span></div>
+            <div className="smaller">{new Date(order.updatedAt).toLocaleDateString()}</div>
         </div>
         <div className="align-rt">
-            <div>${plant.plantTotal.toFixed(2)}</div>
-            <div className="smaller">{plant.totalQty} Item{plant.totalQty > 1 ? 's' : ''}</div>
+            <div>${order.orderTotal.toFixed(2)}</div>
+            <div className="smaller">{order.totalQty} Item{order.totalQty > 1 ? 's' : ''}</div>
         </div>
         </div>
     );
