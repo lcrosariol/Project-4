@@ -9,9 +9,11 @@ export default function NavBar(props) {
     }
 
     return (<nav>
-        <Link to="/orders">Order History</Link>
+        <Link to="/gardens">Garden History</Link>
         &nbsp; | &nbsp;
-        <Link to="/orders/new">Virtual Garden</Link>
+        <Link to="/gardens/virtual">Virtual Garden Plan</Link>
+        &nbsp; | &nbsp;
+        <Link to="/gardens/new">New Garden Plan</Link>
         &nbsp; | &nbsp;
         <span>Welcome {props.user.name}</span>
         &nbsp; | &nbsp;

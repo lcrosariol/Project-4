@@ -4,8 +4,11 @@ import VirtualGarden from "../VirtualGarden/VirtualGarden";
 import AuthPage from "../AuthPage/AuthPage";
 import {Route, Switch, Redirect} from "react-router-dom";
 import { getUser } from '../../utilities/users-service';
-import OrderHistoryPage from "../OrderHistoryPage/OrderHistoryPage";
+import GardenPlan from "../GardenPlan/GardenPlan";
 import NavBar from "../../components/NavBar/NavBar";
+import NewGarden from "../NewGarden/NewGarden";
+
+
 
 export default function App() {
     const [user, setUser] = useState(getUser());
@@ -13,13 +16,16 @@ export default function App() {
             {user ? <>
                 <NavBar user={user} setUser={setUser}/>
                 <Switch>
-                    <Route path="/orders/new">
+                    <Route path="/gardens/virtual">
                         <VirtualGarden/>
                     </Route>
-                    <Route path="/orders">
-                        <OrderHistoryPage/>
+                    <Route path="/gardens/new">
+                        <NewGarden/>
                     </Route>
-                    <Redirect to="/orders"/>
+                    <Route path="/gardens">
+                        <GardenPlan/>
+                    </Route>
+                    <Redirect to="/gardens/new"/>
                 </Switch>
             </> : <AuthPage setUser={setUser}/>}
         </main>);
