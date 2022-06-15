@@ -8,26 +8,59 @@ import CategoryList from '../../components/CategoryList/CategoryList';
 import GardenDetail from '../../components/GardenDetail/GardenDetail';
 import UserLogOut from '../../components/UserLogOut/UserLogOut';
 
-export default function NewGarden() {
+export default function NewGarden({ user, setUser }) {
 
     const [plantItems, setPlantItems] = useState([]);
-    const categoriesRef = useRef
-useEffect(function() {
-    async function getItems() {
-        const items = await itemsAPI.getAll();
-        categoriesRef.current = items.reduce((cats, item) => {
-        const cat = item.category.name;
-        return cats.includes(cat) ? cats : [...cats, cat];
+    const categoriesRef = useRef;
+    const [activeCat, setActiveCat] = useState('');
+
+    useEffect(function() {
+        async function getItems() {
+            const items = await itemsAPI.getAll();
+            categoriesRef.current = items.reduce((cats, item) => {
+            const cat = item.category.name;
+            return cats.includes(cat) ? cats : [...cats, cat];
+            }, []);
+            setPlantItems(items);
+            setActiveCat(items[0].category.name);
+        }
+        getItems();
         }, []);
-        setPlantItems(items);
-    }
-    getItems();
-    }, []);
+        // Event HANDLERS
+        // async function handleAddToOrder(itemId) {
+        //     const cart = await ordersAPI.addItemToCart(itemId);
+        //     setCart(cart);
+        // }
+
+        // async function handleChangeQty(itemId, newQty) {
+        //     const cart = await ordersAPI.setItemQtyInCart(itemId, newQty);
+        //     setCart(cart);
+        // }
+
+        // async function handleCheckout() {
+        //     await ordersAPI.checkout();
+        //     history.push('./gardens');
+        // }
 
     return(
         <>
             <h1>New Garden Page</h1>
-            <button onClick={() => setPlantItems(Date.now())}>Trigger re-render</button>
+            <main className="NewGarden">
+            <aside>
+                <Logo />
+                <CategoryList
+                categories={categoriesRef.current}
+                activeCat={activeCat}
+                setActiveCat={setActiveCat}
+                />
+                <Link to="/gardens" className="button btn-sm">PREVIOUS Gardens</Link>
+                <UserLogOut user={user} setUser={setUser} />
+            </aside>
+            <PlantList
+                plantItems={plantItems.filter(item => item.category.name === activeCat)}
+            />
+            <GardenDetail />
+            </main>
         </>
 
     );
