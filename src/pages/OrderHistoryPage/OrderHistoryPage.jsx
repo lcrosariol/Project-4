@@ -1,16 +1,23 @@
 import {checkToken} from "../../utilities/users-service";
+import CategoryItem from '../CategoryItem/CategoryItem';
 
-export default function OrderHistoryPage() {
+export default function OrderHistoryPage({item}) {
 
-    async function handleCheckToken(){
-        const expDate = await checkToken();
-        console.log(expDate);
-    }
+    // async function handleCheckToken(){
+    //     const expDate = await checkToken();
+    //     console.log(expDate);
+    // }
+    const items = items.map(item =>
+        <CategoryItem
+            key={item._id}
+            item={item}/>
 
+        )
     return (
-        <>
-            <h1>OrderHistoryPage</h1>
-            <button onClick={handleCheckToken}>Check When My Login Expires</button>
-        </>
+            <main className="MenuList">
+            {items}
+            </main>
     );
 }
+
+

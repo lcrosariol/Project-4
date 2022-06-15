@@ -1,0 +1,23 @@
+
+
+
+.VirtualGarden {
+    text-align: center;
+    width: 100vw;
+    height: 100vh;
+}
+
+.Pictures {
+    margin: 10px;
+}
+img {
+    margin: 5px;
+}
+
+.Board {
+    margin: 0 auto;
+    width: 1000px;
+    height: 600px;
+    border: 2px solid black;
+    background-color: rgb(80, 39, 10);
+}

@@ -1,6 +1,6 @@
 import './App.css';
 import {useState} from "react";
-import NewOrderPage from "../NewOrderPage/NewOrderPage";
+import VirtualGarden from "../VirtualGarden/VirtualGarden";
 import AuthPage from "../AuthPage/AuthPage";
 import {Route, Switch, Redirect} from "react-router-dom";
 import { getUser } from '../../utilities/users-service';
@@ -14,7 +14,7 @@ export default function App() {
                 <NavBar user={user} setUser={setUser}/>
                 <Switch>
                     <Route path="/orders/new">
-                        <NewOrderPage/>
+                        <VirtualGarden/>
                     </Route>
                     <Route path="/orders">
                         <OrderHistoryPage/>
