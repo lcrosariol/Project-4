@@ -1,18 +1,21 @@
 import {useState, useEffect, useRef} from 'react';
 import * as itemsAPI from '../../utilities/items-api';
 import './NewGarden.css';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import Logo from '../../components/Logo/Logo';
 import PlantList from '../../components/PlantList/PlantList';
 import CategoryList from '../../components/CategoryList/CategoryList';
 import GardenDetail from '../../components/GardenDetail/GardenDetail';
 import UserLogOut from '../../components/UserLogOut/UserLogOut';
+import * as ordersAPI from '../../utilities/orders-api';
 
 export default function NewGarden({ user, setUser }) {
 
     const [plantItems, setPlantItems] = useState([]);
-    const categoriesRef = useRef;
     const [activeCat, setActiveCat] = useState('');
+    const [cart, setCart] = useState(null);
+    const categoriesRef = useRef([]);
+    const history = useHistory();
 
     useEffect(function() {
         async function getItems() {
@@ -26,21 +29,21 @@ export default function NewGarden({ user, setUser }) {
         }
         getItems();
         }, []);
-        // Event HANDLERS
-        // async function handleAddToOrder(itemId) {
-        //     const cart = await ordersAPI.addItemToCart(itemId);
-        //     setCart(cart);
-        // }
+        //Event HANDLERS
+        async function handleAddToOrder(itemId) {
+            const cart = await ordersAPI.addItemToCart(itemId);
+            setCart(cart);
+        }
 
-        // async function handleChangeQty(itemId, newQty) {
-        //     const cart = await ordersAPI.setItemQtyInCart(itemId, newQty);
-        //     setCart(cart);
-        // }
+        async function handleChangeQty(itemId, newQty) {
+            const cart = await ordersAPI.setItemQtyInCart(itemId, newQty);
+            setCart(cart);
+        }
 
-        // async function handleCheckout() {
-        //     await ordersAPI.checkout();
-        //     history.push('./gardens');
-        // }
+        async function handleCheckout() {
+            await ordersAPI.checkout();
+            history.push('./gardens');
+        }
 
     return(
         <>
@@ -58,8 +61,12 @@ export default function NewGarden({ user, setUser }) {
             </aside>
             <PlantList
                 plantItems={plantItems.filter(item => item.category.name === activeCat)}
+                // handleAddToOrder={handleAddToOrder}
             />
             <GardenDetail />
+                order={cart}
+                handleChangeQty={handleChangeQty}
+                handleCheckout={handleCheckout}
             </main>
         </>
 
